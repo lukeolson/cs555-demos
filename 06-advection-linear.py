@@ -1,5 +1,5 @@
 """
-u_t + (c(x) u)_x = 0 on [a,b]
+u_t + u_x = 0 on [a,b]
 with u(b) = u(a)
 """
 import numpy as np
@@ -17,12 +17,7 @@ def step(x):
             u[j] = 1.0
     return u
 
-def c(x):
-    return 1.0 + 0.0 * x
-    #return 2.0 + np.sin(2 * np.pi * x)
-
-#method = 'constant'
-
+method = 'constant'
 method = 'linear'
 #sigtype = 'LaxW'
 #sigtype = 'BW'
@@ -37,7 +32,7 @@ nx = 128
 x, hx = np.linspace(0, 1, nx, endpoint=False, retstep=True)
 xx = np.linspace(0, 1-hx, 1000)
 
-ht = hx * gamma / c(x).max()
+ht = hx * gamma
 nt = int(np.ceil(T/ht))
 ht = T/nt
 
@@ -89,14 +84,7 @@ TV = []
 for n in range(0, nt):
 
     if method == 'constant':
-        ci = c(x[Jp1])  # at x = i + 1/2
-        fi = 0 * ci   # at x = i + 1/2
-        pos = np.where(ci >= 0)[0]
-        fi[pos] = ci[pos] * u[J[pos]]
-        neg = np.where(ci < 0)[0]
-        fi[neg] = ci[neg] * u[Jp1[neg]]
-
-        u[J] = u[J] - (ht / hx) * (fi[J] - fi[Jm1])
+        u[J] = u[J] - (ht / hx) * (u[J] - u[Jm1])
 
     if method == 'linear':
 
@@ -121,9 +109,8 @@ for n in range(0, nt):
                 sig2 = minmod(2 * sigm, sigp)
                 sig = maxmod(sig1, sig2)
 
-        u[J] = u[J] - (c(x[J]) * ht / hx) * (u[J] - u[Jm1])\
-                    - (c(x[J]) * ht / (2.0 * hx)) * (sig[J] - sig[Jm1])\
-                                                  * (hx - c(x[J]) * ht)
+        u[J] = u[J] - (ht / hx) * (u[J] - u[Jm1])\
+                    - (ht / (2.0 * hx)) * (sig[J] - sig[Jm1]) * (hx - ht)
     uline.set_ydata(u)
     txt.set_text('t=%g, i=%g' % ((n + 1) * ht, n))
     ax.axis([0, 1, -0.25, 1.25])
