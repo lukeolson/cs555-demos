@@ -27,7 +27,7 @@ method = 'linear'
 sigtype = 'LaxW'
 #sigtype = 'BW'
 #sigtype = 'Fromm'
-sigtype = 'minmod'
+#sigtype = 'minmod'
 #sigtype = 'superbee'
 
 T = 1.0
@@ -51,7 +51,7 @@ K = np.arange(0, nx)  # all vertices
 Km1 = np.roll(K, 1)
 Kp1 = np.roll(K, -1)
 
-u = gaussian(x) + step(x)
+u = gaussian(x) #+ step(x)
 
 plt.ion()
 fig, axs = plt.subplots(nrows=2)

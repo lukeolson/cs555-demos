@@ -21,12 +21,12 @@ def c(x):
     return 1.0 + 0.0 * x
     #return 2.0 + np.sin(2 * np.pi * x)
 
-#method = 'constant'
+method = 'constant'
 
-method = 'linear'
+#method = 'linear'
 #sigtype = 'LaxW'
 #sigtype = 'BW'
-sigtype = 'Fromm'
+#sigtype = 'Fromm'
 #sigtype = 'minmod'
 #sigtype = 'superbee'
 
