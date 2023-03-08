@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import legendre
 from scipy.interpolate import lagrange
 import matplotlib.pyplot as plt
-import quadpy
+import modepy
 
 #  An outline of this code is a follows:
 #      1. problem defition
@@ -51,8 +51,7 @@ x = np.linspace(xa, xb, nel + 1)
 h = x[1] - x[0]
 
 # Construct the local quadrature points
-scheme = quadpy.c1.gauss_lobatto(p + 1)
-qx, qw = scheme.points, scheme.weights
+qx = modepy.quadrature.jacobi_gauss.legendre_gauss_lobatto_nodes(p)
 
 # Full mesh, all nodes
 xx = np.zeros((p + 1, nel))
