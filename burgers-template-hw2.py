@@ -68,6 +68,6 @@ for n in range(1, nt+1):
     time = n * ht
     if abs(time-1.) < ht/2 or abs(time-2) < ht/2.: 
         plt.title('t=%g, i=%g' % (n * ht, n))
-        plt.plot(x[mask], u0[mask], 'r-', linewidth=1, label='approximate')
+        plt.plot(x[mask], u[mask], 'r-', linewidth=1, label='approximate')
         #plt.plot(x[mask], uexact[mask], '-.', linewidth=3, label='exact')
         plt.legend(); plt.show()
