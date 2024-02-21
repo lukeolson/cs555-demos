@@ -17,10 +17,10 @@ def step(x):
             u[j] = 1.0
     return u
 
-def exact_rarefraction(x,time,u0):
+def exact_rarefraction(...):
     # IMPLEMENT
     # .....
-    return u0
+    return u
 
 T = 2.0
 gamma = 0.95
