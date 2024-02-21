@@ -6,10 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def gaussian(x):
-    u = np.exp(-100 * (x - 0.25)**2)
-    return u
-
+# Example initial condition. 
+# Implement your own for problem 1 and 2.
 def step(x):
     u = np.zeros(x.shape)
     for j in range(len(x)):
