@@ -6,10 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def gaussian(x):
-    u = np.exp(-100 * (x - 0.25)**2)
-    return u
-
+# Example initial condition. 
+# Implement your own for problem 1 and 2.
 def step(x):
     u = np.zeros(x.shape)
     for j in range(len(x)):
@@ -17,21 +15,24 @@ def step(x):
             u[j] = 1.0
     return u
 
-def exact_rarefraction(x,time,u0):
+def exact_rarefraction(...):
     # IMPLEMENT
     # .....
-    return u0
+    return u
 
 T = 2.0
 gamma = 0.95
 nx = 128
-nx_ghost = 2 # number of ghost cells on each side
 
-x, hx = np.linspace(0, 5, nx + 2*nx_ghost, endpoint=False, retstep=True)
-xx = np.linspace(0, 5, 1000, endpoint=False)
-# Ghost cell mask
+
+x, hx = np.linspace(0, 5, nx, endpoint=False, retstep=True)
+# Ghost cell mask: pretend first and last DoF is a ghost cell
 mask =  np.ones(len(x), dtype=bool) 
-mask[:2] = mask[-2:] = False
+mask[:1] = mask[-1:] = False
+# Indexing arrays
+K = np.arange(0, nx)   # 0, ..., nx-1
+Km1 = np.roll(K, 1)    # nx-1, 0, 1, ..., nx-2
+Kp1 = np.roll(K, -1)   # 1, ..., nx
 
 ht = hx * gamma
 nt = int(np.ceil(T/ht))
@@ -42,10 +43,6 @@ print('tsteps = %d' % nt)
 print('    hx = %g' % hx)
 print('    ht = %g' % ht)
 print('lambda = %g' % gamma)
-
-K = np.arange(1, nx+2)   # 1, ..., nx+1
-Km1 = K-1   # 0,..., nx
-Kp1 = K+1   # 2, ..., nx+2
 
 u = step(x)
 u0 = u.copy()
@@ -61,13 +58,14 @@ for n in range(1, nt+1):
     # add code here
     # ...
     
-    # u[:] = u - ht/hx * (flux[K]-flux[Km1])  
+    # Which u values need to be updated?
+    # u = u - ht/hx * (flux[K]-flux[Km1])  
     # uexact = exact_rarefraction(x, time, u0)
 
     # Plot Computed and exact solution 
     time = n * ht
     if abs(time-1.) < ht/2 or abs(time-2) < ht/2.: 
         plt.title('t=%g, i=%g' % (n * ht, n))
-        plt.plot(x[mask], u0[mask], 'r-', linewidth=1, label='approximate')
+        plt.plot(x[mask], u[mask], 'r-', linewidth=1, label='approximate')
         #plt.plot(x[mask], uexact[mask], '-.', linewidth=3, label='exact')
         plt.legend(); plt.show()
